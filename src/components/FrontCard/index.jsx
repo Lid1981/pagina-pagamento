@@ -4,7 +4,7 @@ import { RiVisaLine } from "react-icons/ri";
 
 export default function CardFront(){
     return (
-        <div className="w-[450px] h-[300px] bg-[#4F4F4F] rounded-md">
+        <div className="w-[450px] h-[300px] bg-[#4F4F4F] rounded-xl">
             <div className="w-full h-[30%] flex"> 
                 <div className="w-[50%] h-full flex items-center pl-6 mt-4 gap-2">
                     <div className="w-[80px] h-[80px] rounded-full bg-white"></div>
@@ -23,9 +23,9 @@ export default function CardFront(){
                     <p className="text-[#C0C0C0] font-bold text-[20px]">0000 0000 0000 0000</p>
                 </div>
             </div>
-            <div className="w-full h-[30%] pl-4 mt-4">
+            <div className="w-full h-[30%] pl-4 mt-4 flex justify-between pr-4">
                 <p className="text-white text-[20px] font-bold">Nome no Cartão</p>
-                <RiVisaLine size={30} color="white" />
+                <RiVisaLine size={30} color="white"/>
             </div>
         </div>
     )
