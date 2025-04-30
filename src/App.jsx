@@ -13,12 +13,20 @@ export default function App() {
   const [cvv, setCvv] = useState(0);
   const [senha, setSenha] = useState("");
 
+  function formatNumero(evento){
+    let numero = evento.target.value
+    let numeroFormatado = numero.replace(/\D/g, '') // Remove tudo que não for número
+    numeroFormatado = numeroFormatado.substring(0, 16) // Limita a 16 Dígitos
+    numeroFormatado = numeroFormatado.replace(/(\d{4})/g, '$1 ').trim() // Adiciona espaço a cada 4 dígitos
+    setNumero(numeroFormatado)
+  }
+
   async function pagar(){
     if(!nome || !numero || !mes || !ano || !cvv || !senha){
       return toast.error("Preencha todos os campos")
     }
 
-    if(numero.length !== 16){
+    if(numero.replace(/\s/g, '').length !== 16){
       return toast.error("Número do cartão inválido")
     }
 
@@ -41,7 +49,7 @@ export default function App() {
     try {
       const response = await instance.post("/creditcards", {
         name: nome,
-        number: numero,
+        number: numero.replace(/\s/g, ''),
         expiration: `${mes}/${ano}`,
         cvv: cvv,
         password: senha
@@ -59,30 +67,31 @@ export default function App() {
       autoClose={5000}
       theme="colored"
       />
-      <div className="w-[40%] h-full bg-[#9400D3]">
+      <div className="w-[40%] h-full bg-[#BA55D3]">
         <div className="absolute top-10 left-70">
-          <CardFront />
+          <CardFront nome={nome} numero={numero}/>
         </div>
         <div className="absolute top-95 left-100">
-          <BackCard />
+          <BackCard cvv={cvv}/>
         </div>
       </div>
       <div className="w-[60%] relative h-full flex items-end p-[50px] flex-col">
-        <h1 className="text-[#9400D3] text-[45px] w-[80%] h-[150px] font-bold">Preencha todos os campos para concluir o pagamento:</h1>
+        <h1 className="text-[#BA55D3] text-[45px] w-[80%] h-[150px] font-bold">Preencha todos os campos para concluir o pagamento:</h1>
         <div className="w-[60%] h-auto min-h-[200px] flex flex-col gap-4">
           <div className="w-full flex flex-col">
             <label htmlFor="nome" className="font-bold text-[18px] text-[#808080]">Nome no Cartão</label>
             <input 
             onChange={(event) => setNome(event.target.value) }
             type="text" 
-            className="w-full h-[40px] rounded-md text-[#808080] font-bold bg-[#D3D3D3] cursor-pointer hover:bg-[#9400D3]" />
+            className="w-full h-[40px] rounded-md text-[#363636]] font-bold bg-[#D3D3D3] cursor-pointer hover:bg-[#BA55D3]" />
           </div>
           <div className="w-full flex flex-col">
             <label htmlFor="numero" className="font-bold text-[18px] text-[#808080]">Número do Cartão</label>
             <input 
-            onChange={(event) => setNumero(event.target.value)} 
-            type="number" 
-            className="w-full h-[40px] rounded-md text-[#808080] font-bold bg-[#D3D3D3] cursor-pointer  hover:bg-[#9400D3]" />
+            onChange={(event) => formatNumero(event)} 
+            value={numero}
+            type="text" 
+            className="w-full h-[40px] rounded-md text-[#363636]] font-bold bg-[#D3D3D3] cursor-pointer  hover:bg-[#BA55D3]" />
           </div>
           <div className="flex">
             <div className="w-[70%] flex flex-col"> 
@@ -92,12 +101,12 @@ export default function App() {
                 onChange={(event) => setMes(event.target.value)}
                   type="number"
                   placeholder="mm"
-                  className="w-[50%] h-[40px] rounded-md pl-2 bg-[#D3D3D3] cursor-pointer  hover:bg-[#9400D3] placeholder:font-bold" />
+                  className="w-[50%] h-[40px] rounded-md pl-2 text-[#363636] bg-[#D3D3D3] cursor-pointer  hover:bg-[#BA55D3] placeholder:font-bold" />
                 <input 
                 onChange={(event) => setAno(event.target.value)}
                   type="number"
                   placeholder="aa"
-                  className="w-[50%] h-[40px] rounded-md pl-2 bg-[#D3D3D3] cursor-pointer hover:bg-[#9400D3] placeholder:font-bold" />
+                  className="w-[50%] h-[40px] rounded-md pl-2 text- [#363636] bg-[#D3D3D3] cursor-pointer hover:bg-[#BA55D3 placeholder:font-bold" />
               </div>
             </div>
             <div className="w-[30%] pl-2 flex flex-col">
@@ -106,7 +115,7 @@ export default function App() {
               <input 
               onChange={(event) => setCvv(event.target.value)}
               type= "number" 
-              className="w-full h-[40px] rounded-md bg-[#D3D3D3] text-[#808080] hover:bg-[#9400D3] font-bold cursor-pointer" />
+              className="w-full h-[40px] rounded-md bg-[#D3D3D3] text-[#363636] hover:bg-[#BA55D3] font-bold cursor-pointer" />
             </div>
           </div>
           <div className="w-full flex flex-col">
@@ -114,11 +123,11 @@ export default function App() {
             <input 
             onChange={(event) => setSenha(event.target.value)}
             type="password" 
-            className="-full h-[40px] rounded-md bg-[#D3D3D3] cursor-pointer hover:bg-[#9400D3]" />
+            className="-full h-[40px] rounded-md bg-[#D3D3D3] cursor-pointer hover:bg-[#BA55D3]" />
           </div>
           <button 
           onClick={pagar}
-          className="w-full h-[50px] rounded-md text-[#1C1C1C] font-bold bg-[#9400D3] hover:bg-[#808080] cursor-pointer">Pagar</button>
+          className="w-full h-[50px] rounded-md text-[#1C1C1C] font-bold bg-[#BA55D3] hover:bg-[#363636] cursor-pointer">Pagar</button>
         </div>
       </div>
     </div>
